@@ -15,6 +15,20 @@ class JobListing:
         self.salary = salary
         self.description = description
 
+    def __gt__(self, other):
+        """Определяет оператор > для сравнения по зарплате."""
+        return self.salary > other.salary
+
+    def __lt__(self, other):
+        """Определяет оператор < для сравнения по зарплате."""
+        return self.salary < other.salary
+
+    def sorted_listings(listings):
+        """Сортирует список объявлений по зарплате."""
+        return sorted(listings)
+
+    #def gt и lt (сравнивают по зарплате) (метод сортирует sorted(зависит от gt и lt))
+
     def __str__(self):
         """
                 Возвращает строковое представление объекта JobListing.

@@ -1,23 +1,24 @@
 from src.job_api import HhJobAPI, SuperJobAPI
 from src.job_listing import JobListing
 from src.job_listing_manager import JSONJobListingManager
+import os
 
 
 def interact_with_user(manager, api1, api2):
     """
-        Взаимодействие с пользователем через консоль.
+    Взаимодействие с пользователем через консоль.
 
-        Args:
-            manager: Менеджер вакансий.
-            api1: Объект для работы с API hh.ru.
-            api2: Объект для работы с API superjob.ru.
-        """
+    Args:
+        manager: Менеджер вакансий.
+        api1: Объект для работы с API hh.ru.
+        api2: Объект для работы с API superjob.ru.
+    """
     while True:
         print("\nПараметры:")
         print("1. Поиск работы")
         print("2. Фильтровать вакансии по ключевому слову")
         print("3. Удалить список вакансий")
-        print("4. Вызод")
+        print("4. Выход")
         option = input("Выберите вариант: ")
 
         if option == "1":
@@ -27,10 +28,19 @@ def interact_with_user(manager, api1, api2):
             jobs = jobs1 + jobs2
             listings = []
             for job in jobs:
-                title = job["title"]
-                link = job["link"]
-                salary = job.get("salary", "Not specified")
-                description = job.get("description", "No description")
+                if "title" in job:
+                    title = job["title"]
+                else:
+                    title = "Нет названия"
+
+                if "link" in job:
+                    link = job["link"]
+                else:
+                    link = "Нет ссылки"
+
+                salary = job.get("salary", "Не указана")
+                description = job.get("description", "Нет описания")
+
                 listing = JobListing(title, link, salary, description)
                 listings.append(listing)
 
@@ -83,14 +93,11 @@ def interact_with_user(manager, api1, api2):
             break
 
         else:
-            print("Неверный вариант. Пожалуйста, попробуйте еще раз.")
-
+            print("Неверный выбор. Попробуйте еще раз.")
 
 def main():
-    hh_token = "YOUR_HH_API_TOKEN"
-    superjob_token = "SupJob_API_KEY"
-
-    hh_api = HhJobAPI(hh_token)
+    hh_api = HhJobAPI()
+    superjob_token = os.getenv('SupJob_API_KEY')
     superjob_api = SuperJobAPI(superjob_token)
 
     manager = JSONJobListingManager("job_listings.json")

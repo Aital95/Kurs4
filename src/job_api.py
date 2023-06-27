@@ -11,8 +11,6 @@ class AbstractJobAPI(ABC):
 
 class HhJobAPI(AbstractJobAPI):
     """Класс для работы с API hh.ru."""
-    def __init__(self, token):
-        self.token = token
 
     def get_jobs(self, query):
         """Получает вакансии с помощью API hh.ru.
@@ -21,8 +19,7 @@ class HhJobAPI(AbstractJobAPI):
                Returns:
                    Список словарей, представляющих информацию о вакансиях."""
         url = f"https://api.hh.ru/vacancies?text={query}&area=113&per_page=10"
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-                   "Authorization": f"Bearer {self.token}"}
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
