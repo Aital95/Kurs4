@@ -38,8 +38,8 @@ def interact_with_user(manager, api1, api2):
                 else:
                     link = "Нет ссылки"
 
-                salary = job.get("salary", "Не указана")
-                description = job.get("description", "Нет описания")
+                salary = job.get("зарплата", "Не указана")
+                description = job.get("описание", "Нет описания")
 
                 listing = JobListing(title, link, salary, description)
                 listings.append(listing)
