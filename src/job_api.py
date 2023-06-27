@@ -12,6 +12,9 @@ class AbstractJobAPI(ABC):
 class HhJobAPI(AbstractJobAPI):
     """Класс для работы с API hh.ru."""
 
+    def __init__(self, api_url):
+        self.api_url = api_url
+
     def get_jobs(self, query):
         """Получает вакансии с помощью API hh.ru.
                Args:

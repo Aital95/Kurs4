@@ -36,4 +36,4 @@ class JobListing:
                 Returns:
                     str: Строковое представление вакансии.
                 """
-        return f"{self.title}\nSalary: {self.salary}\nDescription: {self.description}\nLink: {self.link}"
+        return f"{self.title}\nЗарплата: {self.salary}\nОписание: {self.description}\nСсылка: {self.link}"

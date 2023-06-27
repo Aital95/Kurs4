@@ -96,7 +96,9 @@ def interact_with_user(manager, api1, api2):
             print("Неверный выбор. Попробуйте еще раз.")
 
 def main():
-    hh_api = HhJobAPI()
+    hh_api_url = os.getenv('HH_API_URL')
+    hh_api = HhJobAPI(hh_api_url)
+
     superjob_token = os.getenv('SupJob_API_KEY')
     superjob_api = SuperJobAPI(superjob_token)
 
