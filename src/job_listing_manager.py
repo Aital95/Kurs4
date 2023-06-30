@@ -1,4 +1,5 @@
 import json
+import os
 from abc import ABC, abstractmethod
 
 from src.job_listing import JobListing
@@ -23,27 +24,40 @@ class JSONJobListingManager(JobListingManager):
 
     def __init__(self, filename):
         """
-            Инициализирует экземпляр класса JSONJobListingManager.
+        Инициализирует экземпляр класса JSONJobListingManager.
 
-            Args:
-                filename (str): Имя файла для сохранения списка вакансий.
-            """
+        Args:
+            filename (str): Имя файла для сохранения списка вакансий.
+        """
         self.filename = filename
         self.listings = []
         self.load_listings()
 
     def load_listings(self):
         """
-            Загружает список вакансий из файла JSON.
-                """
-        try:
-            with open(self.filename, "r") as file:
-                data = json.load(file)
-                for item in data:
-                    listing = JobListing(item["title"], item["link"], item["salary"], item["description"])
-                    self.listings.append(listing)
-        except FileNotFoundError:
-            print(f"Файл {self.filename} не найден.")
+        Загружает список вакансий из файла JSON, создает пустой список, если файл не существует,
+        или загружает пустой список, если файл существует, но является пустым.
+        """
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, "r") as file:
+                    data = json.load(file)
+                    if isinstance(data, list):
+                        for item in data:
+                            listing = JobListing(
+                                item.get("title"),
+                                item.get("link"),
+                                item.get("salary"),
+                                item.get("description")
+                            )
+                            self.listings.append(listing)
+                        print(f"Загружено {len(self.listings)} вакансий из файла {self.filename}.")
+                    else:
+                        print(f"Файл {self.filename} не содержит список вакансий.")
+            except FileNotFoundError:
+                print(f"Файл {self.filename} не найден.")
+        else:
+            print(f"Файл {self.filename} не существует. Создаю новый файл.")
 
     def save_listings(self):
         """

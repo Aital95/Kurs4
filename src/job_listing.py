@@ -1,19 +1,20 @@
 class JobListing:
     """Класс для представления информации о вакансии."""
+
     def __init__(self, title, link, salary, description):
         """
-                Инициализирует экземпляр класса JobListing.
+        Инициализирует экземпляр класса JobListing.
 
-                Args:
-                    title (str): Заголовок вакансии.
-                    link (str): Ссылка на вакансию.
-                    salary (str): Зарплата.
-                    description (str): Описание вакансии.
-                """
-        self.title = title
-        self.link = link
-        self.salary = salary
-        self.description = description
+        Args:
+            title (str): Заголовок вакансии.
+            link (str): Ссылка на вакансию.
+            salary (str): Зарплата.
+            description (str): Описание вакансии.
+        """
+        self.title = title or "Нет названия"
+        self.link = link or "Нет ссылки"
+        self.salary = salary or "Не указана"
+        self.description = description or "Нет описания"
 
     def __gt__(self, other):
         """Определяет оператор > для сравнения по зарплате."""
