@@ -1,7 +1,5 @@
 import requests
 from abc import ABC, abstractmethod
-
-
 class AbstractJobAPI(ABC):
     """Абстрактный класс для работы с API сайтов с вакансиями."""
     @abstractmethod
@@ -52,3 +50,36 @@ class SuperJobAPI(AbstractJobAPI):
         else:
             print("Ошибка доступа SuperJob.ru API.")
             return []
+def interact_with_user(manager, api1, api2):
+    """
+    Взаимодействие с пользователем через консоль.
+
+    Args:
+        manager: Менеджер вакансий.
+        api1: Объект для работы с API hh.ru.
+        api2: Объект для работы с API superjob.ru.
+    """
+    while True:
+        print("\nПараметры:")
+        print("1. Поиск работы")
+        print("2. Фильтровать вакансии по ключевому слову")
+        print("3. Удалить список вакансий")
+        print("4. Выход")
+        option = input("Выберите вариант: ")
+        if option == "1":
+            query = input("Введите запрос для поиска работы: ")
+            jobs1 = api1.get_jobs(query)
+            jobs2 = api2.get_jobs(query)
+            jobs = jobs1 + jobs2
+            listings = []
+
+for job in jobs:
+    if "title" in job:
+        print("Ключ 'title' присутствует в данных")
+
+    if "description" in job:
+        print("Ключ 'description' присутствует в данных")
+    else:
+        print("Ключ 'description' отсутствует в данных")
+
+

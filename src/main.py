@@ -2,7 +2,7 @@ from src.job_api import HhJobAPI, SuperJobAPI
 from src.job_listing import JobListing
 from src.job_listing_manager import JSONJobListingManager
 import os
-
+import re
 
 def interact_with_user(manager, api1, api2):
     """
@@ -28,18 +28,45 @@ def interact_with_user(manager, api1, api2):
             jobs = jobs1 + jobs2
             listings = []
             for job in jobs:
-                if "title" in job:
-                    title = job["title"]
+                if "name" in job:
+                    title = job["name"]
+                elif "profession" in job:
+                    title = job["profession"]
                 else:
                     title = "Нет названия"
 
-                if "link" in job:
+                if "url" in job:
+                    link = job["url"]
+                elif "link" in job:
                     link = job["link"]
                 else:
                     link = "Нет ссылки"
 
-                salary = job.get("Salary", "Не указана")
-                description = job.get("Description", "Нет описания")
+                if "salary" in job:
+                    if "from" in job["salary"]:
+                        salary = job["salary"]["from"]
+                    else:
+                        salary = "Не указано"
+                elif "payment_from" in job:
+                    salary = job["payment_from"]
+                else:
+                    salary = "Не указана"
+
+                if "snippet" in job:
+                    snippet = job["snippet"]
+                    if "responsibility" in snippet:
+                        description = snippet["responsibility"]
+                    else:
+                        description = "Нет описания"
+                elif "candidat" in job:
+                    candidat_text = job["candidat"]
+                    match = re.search(r"Обязанности:\s+(.+)", candidat_text)
+                    if match:
+                        description = match.group(1)
+                    else:
+                        description = "Нет описания"
+                else:
+                    description = "Нет описания"
 
                 listing = JobListing(title, link, salary, description)
                 listings.append(listing)
@@ -99,7 +126,7 @@ def main():
     hh_api_url = os.getenv('HH_API_URL')
     hh_api = HhJobAPI(hh_api_url)
 
-    superjob_token = os.getenv('SupJob_API_KEY')
+    superjob_token = os.getenv('SJ_API_KEY')
     superjob_api = SuperJobAPI(superjob_token)
 
     manager = JSONJobListingManager("job_listings.json")
