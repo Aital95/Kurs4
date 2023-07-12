@@ -28,7 +28,7 @@ class JobListing:
         """Сортирует список объявлений по зарплате."""
         return sorted(listings)
 
-    #def gt и lt (сравнивают по зарплате) (метод сортирует sorted(зависит от gt и lt))
+    # def gt и lt (сравнивают по зарплате) (метод сортирует sorted(зависит от gt и lt))
 
     def __str__(self):
         """
